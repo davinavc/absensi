@@ -27,7 +27,7 @@ export default function UserIndex({ auth, users }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
+                                    {users.data.map((user) => (
                                         <tr key={user.id} className='border-b'>
                                             <td className='px-6 py-4 whitespace-nowrap'>
                                                 {user.id}
