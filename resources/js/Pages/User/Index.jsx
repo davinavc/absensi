@@ -1,7 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import Pagination from '@/Components/Pagination';
 
 export default function UserIndex({ auth, users }) {
+    console.log(users);
     return (
         <AuthenticatedLayout
             user = {auth.user}
@@ -45,6 +47,7 @@ export default function UserIndex({ auth, users }) {
                                     ))}
                                 </tbody>
                             </table>
+                            <Pagination links={users.links} />
                         </div>
                     </div>
                 </div>
