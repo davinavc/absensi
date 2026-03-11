@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination';
+import { Link } from '@inertiajs/react';
 
 export default function UserIndex({ auth, users }) {
     console.log(users);
@@ -19,6 +20,12 @@ export default function UserIndex({ auth, users }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
+                            <div className='flex mt-2 justify-between items-center'>
+                                <h1 className='font-bold text-xl '>Users Data</h1>
+                                <Link href={route('users.create')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Create User
+                                </Link>
+                            </div>
                             <table className='min-w-full'>
                                 <thead>
                                     <tr className="border-b-2">
@@ -47,6 +54,9 @@ export default function UserIndex({ auth, users }) {
                                     ))}
                                 </tbody>
                             </table>
+                            <div className='flex mt-2 justify-between items-center'>
+                                <label>Total Data User : {users.total}</label>
+                            </div>
                             <Pagination links={users.links} />
                         </div>
                     </div>
