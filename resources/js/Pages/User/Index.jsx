@@ -48,7 +48,7 @@ export default function UserIndex({ auth, users }) {
                                                 {user.email}
                                             </td>
                                             <td className='px-6 py-4 whitespace-nowrap'>
-                                                {user.email}
+                                                {user.role}
                                             </td>
                                         </tr>
                                     ))}
