@@ -6,6 +6,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm } from '@inertiajs/react';
+import Selectbox from '@/Components/Selectbox';
+
 
 export default function UserIndex({ auth }) {
         const { data, setData, post, errors, processing, recentlySuccessful } =
@@ -14,6 +16,7 @@ export default function UserIndex({ auth }) {
                 email: "",
                 password: "",
                 password_confirmation: "",
+                role: "user",
             });
     
         const submit = (e) => {
@@ -87,6 +90,27 @@ export default function UserIndex({ auth }) {
                                         />
                         
                                         <InputError className="mt-2" message={errors.email} />
+                                    </div>
+
+                                    <div>
+                                        <InputLabel htmlFor="role" value="Role" />
+                        
+                                        <Selectbox 
+                                            id="role"
+                                            currentValue={data.role}
+                                            onChange={(e) => setData('role', e.target.value)}
+                                            options={[
+                                                {
+                                                    value:"admin",
+                                                    label:"Admin",
+                                                },
+                                                {
+                                                    value:"user",
+                                                    label:"User",
+                                                }
+                                            ]}
+                                        ></Selectbox>
+                                        <InputError className="mt-2" message={errors.role} />
                                     </div>
                                     
                                     <div>
