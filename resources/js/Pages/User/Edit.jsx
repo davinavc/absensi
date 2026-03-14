@@ -9,23 +9,23 @@ import { Link, useForm } from '@inertiajs/react';
 import Selectbox from '@/Components/Selectbox';
 
 
-export default function UserCreate({ auth }) {
-        const { data, setData, post, errors, processing, recentlySuccessful } =
+export default function UserEdit({ user, auth }) {
+        const { data, setData, patch, errors, processing, recentlySuccessful } =
             useForm({
-                name: "",
-                email: "",
+                name: user.name,
+                email: user.email,
                 password: "",
                 password_confirmation: "",
-                role: "user",
+                role: user.role,
             });
     
         const submit = (e) => {
             e.preventDefault();
     
-            post(route('users.store'), {
+            patch(route('users.update', user.id), {
                 preserveScroll: true,
                 onSuccess: () => {
-                    alert("User Created");
+                    alert("User Updated");
                 },
                 onError: (errors) => {
                     console.log(errors);
@@ -51,11 +51,11 @@ export default function UserCreate({ auth }) {
                            <section className="max-w-xl">
                                 <header>
                                     <h2 className="text-lg font-medium text-gray-900">
-                                        New User Information
+                                        Edit User Information
                                     </h2>
                         
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Create new account's information and email address.
+                                        Edit account's information and email address.
                                     </p>
                                 </header>
                         
