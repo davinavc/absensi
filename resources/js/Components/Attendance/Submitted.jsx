@@ -1,3 +1,5 @@
 export default function submitted(){
-    return <h1>Anda sudah absen hari ini </h1>
+    const hariIni = new Date();
+    const tanggal = hariIni.toLocaleDateString('id-ID');
+    return <h1 className="font-bold">Anda sudah absen hari ini {tanggal} </h1>
 }
