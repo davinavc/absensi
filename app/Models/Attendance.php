@@ -14,7 +14,7 @@ class Attendance extends Model
     protected $fillable = [
         'user_id',
         'latitude',
-        'longtitude',
+        'longitude',
         'address',
         'status',
         'description',

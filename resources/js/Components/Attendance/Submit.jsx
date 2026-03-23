@@ -8,28 +8,87 @@ import { Transition } from '@headlessui/react';
 import { Link, useForm } from '@inertiajs/react';
 import Selectbox from '@/Components/Selectbox';
 import { useState, useEffect } from "react";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
+
+setOptions({ 
+        key: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+        version: "weekly"
+     });
 
 export default function SubmitAttendance({ auth }) {
     const [transitioning, setTransitioning] = useState(false);    
-    const { data, setData, post, errors, processing, recentlySuccessful } =
+    const { data, setData, post, transform, errors, processing, recentlySuccessful } =
             useForm({
                 status: "attend",
                 description: "",
+                latitude: "",
+                longitude: "",
+                prepareData: {},
+                address: "",
             });
+
+        const getLatLing = (e) => {
+            e.preventDefault();
+            navigator.geolocation.getCurrentPosition(
+                function (position){
+                    createGeocorder(position.coords);
+                },
+                function (error){
+                    alert("Tidak bisa mendapatkan lokasi");
+                }
+            )
+        }
+
+        function createGeocorder(coordinates){
+            importLibrary("geocoding").then(({ Geocoder }) => {
+                const geocoder = new Geocoder();
+                geocoder.geocode({ 
+                    location: { 
+                        lat: coordinates.latitude, 
+                        lng: coordinates.longitude 
+                    },
+                })
+                .then((response) => {
+                    if(!response.results[0]){
+                        alert("Tidak bisa menemukan lokasi");
+                        return;
+                    }
+                    let objLocation = {
+                        latitude: coordinates.latitude,
+                        longitude: coordinates.longitude,
+                        address: response.results[0].formatted_address,
+                    };
+                    setData("prepareData", objLocation);
+                })
+                .catch((e) => {
+                    console.log("Gagal membaca koordinat: ", e);
+                });
+            });
+        }
     
         const submit = (e) => {
             e.preventDefault();
-    
-            post(route('attendances.submit'), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    alert("Absensi Success");
-                },
-                onError: (errors) => {
-                    console.log(errors);
-                },
-            });
         };
+
+        useEffect(() => {
+            if (data.prepareData.hasOwnProperty("address")){
+                transform((data) => ({
+                    ...data.prepareData,
+                    status: data.status,
+                    description: data.description,
+                }))
+                post(route('attendances.submit'), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        alert("Absensi Success");
+                    },
+                    onError: (errors) => {
+                        console.log(errors);
+                    },
+                });
+            }
+
+        }, [data.prepareData]);
 
         useEffect(() => {
             if(data.status === "attend"){
@@ -41,7 +100,7 @@ export default function SubmitAttendance({ auth }) {
         }, [data.status]);
 
     return (
-        <form onSubmit={submit} className="mt-6 space-y-6">
+        <form onSubmit={getLatLing} className="mt-6 space-y-6">
             <div>
                 <InputLabel htmlFor="name" value="Silahkan lakukan absensi" />
         
@@ -74,7 +133,7 @@ export default function SubmitAttendance({ auth }) {
                 
                         <TextInput
                             onChange ={(e) =>
-                                setData("status", e.target.value)
+                                setData("description", e.target.value)
                             }
                             className="w-full"
                         /> 
