@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
+    static function isTodayAttendanceSubmitted(): bool
+    {
+        $userId = auth()->id();
+        if (!$userId) {
+            return false;
+        }
+
+        return Attendance::where('user_id', $userId)
+                        ->whereDate('created_at', now()->toDateString())
+                        ->exists();
+    }
     public function submit(Request $request) {
         $request->validate([
             'status' => 'required',

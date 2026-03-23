@@ -2,9 +2,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import SubmitAttendance from '@/Components/Attendance/Submit';
 
-export default function Dashboard() {
+export default function Dashboard({ auth, submitted}) {
+    console.log(submitted);
     return (
         <AuthenticatedLayout
+            user={auth.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Dashboard
