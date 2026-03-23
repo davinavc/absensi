@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AttendanceController extends Controller
 {
@@ -20,6 +22,15 @@ class AttendanceController extends Controller
                         ->whereDate('created_at', now()->toDateString())
                         ->exists();
     }
+
+    public function index(): Response
+    {
+        $attendances = Attendance::with('user')->paginate(10);
+        return Inertia::render('Attendance/Index', [
+            'attendances' => $attendances
+        ]);
+    }
+
     public function submit(Request $request) {
         $request->validate([
             'status' => 'required',
