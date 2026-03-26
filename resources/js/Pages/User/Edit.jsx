@@ -12,6 +12,7 @@ import roles from "@/data/roles.json";
 export default function UserEdit({ user, auth }) {
         const { data, setData, patch, errors, processing, recentlySuccessful } =
             useForm({
+                uid: user.uid,
                 name: user.name,
                 email: user.email,
                 password: "",
@@ -60,6 +61,21 @@ export default function UserEdit({ user, auth }) {
                                 </header>
                         
                                 <form onSubmit={submit} className="mt-6 space-y-6">
+                                    <div>
+                                        <InputLabel htmlFor="uid" value="Rfid" />
+                                
+                                        <TextInput
+                                            id="uid"
+                                            className="mt-1 block w-full"
+                                            value={data.name}
+                                            onChange={(e) => setData('uid', e.target.value)}
+                                            required
+                                            readOnly
+                                            isFocused
+                                        />
+                                
+                                        <InputError className="mt-2" message={errors.uid} />
+                                    </div>
                                     <div>
                                         <InputLabel htmlFor="name" value="Name" />
                         

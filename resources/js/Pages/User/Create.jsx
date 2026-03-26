@@ -12,6 +12,7 @@ import roles from "@/data/roles.json";
 export default function UserCreate({ auth }) {
         const { data, setData, post, errors, processing, recentlySuccessful } =
             useForm({
+                uid: "",
                 name: "",
                 email: "",
                 password: "",
@@ -61,6 +62,22 @@ export default function UserCreate({ auth }) {
                         
                                 <form onSubmit={submit} className="mt-6 space-y-6">
                                     <div>
+                                        <InputLabel htmlFor="uid" value="Rfid" />
+                        
+                                        <TextInput
+                                            id="uid"
+                                            className="mt-1 block w-full"
+                                            value={data.name}
+                                            onChange={(e) => setData('uid', e.target.value)}
+                                            required
+                                            readOnly
+                                            isFocused
+                                        />
+                        
+                                        <InputError className="mt-2" message={errors.uid} />
+                                    </div>
+
+                                    <div>
                                         <InputLabel htmlFor="name" value="Name" />
                         
                                         <TextInput
@@ -69,7 +86,6 @@ export default function UserCreate({ auth }) {
                                             value={data.name}
                                             onChange={(e) => setData('name', e.target.value)}
                                             required
-                                            isFocused
                                             autoComplete="name"
                                         />
                         
