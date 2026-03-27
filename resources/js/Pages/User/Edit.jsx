@@ -67,10 +67,8 @@ export default function UserEdit({ user, auth }) {
                                         <TextInput
                                             id="uid"
                                             className="mt-1 block w-full"
-                                            value={data.name}
+                                            value={data.uid}
                                             onChange={(e) => setData('uid', e.target.value)}
-                                            required
-                                            readOnly
                                             isFocused
                                         />
                                 

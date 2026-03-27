@@ -62,15 +62,13 @@ export default function UserCreate({ auth }) {
                         
                                 <form onSubmit={submit} className="mt-6 space-y-6">
                                     <div>
-                                        <InputLabel htmlFor="uid" value="Rfid" />
+                                        <InputLabel htmlFor="uid" value="RFID" />
                         
                                         <TextInput
                                             id="uid"
                                             className="mt-1 block w-full"
-                                            value={data.name}
-                                            onChange={(e) => setData('uid', e.target.value)}
-                                            required
-                                            readOnly
+                                            value={data.uid}
+                                            onChange={(e) => setData('uid', e.target.value)}                        
                                             isFocused
                                         />
                         
