@@ -9,6 +9,7 @@ import { Link, useForm } from '@inertiajs/react';
 import Selectbox from '@/Components/Selectbox';
 import roles from "@/data/roles.json";
 
+
 export default function UserCreate({ auth }) {
         const { data, setData, post, errors, processing, recentlySuccessful } =
             useForm({
@@ -33,6 +34,10 @@ export default function UserCreate({ auth }) {
                 },
             });
         };
+
+    window.Echo.channel("read-rfid-channel").listen(".ReadRfidEvent", (e) => {
+        console.log("test", e);
+    });
 
     return (
         <AuthenticatedLayout
